@@ -2,7 +2,7 @@
  * DROPZONE — HomepageSkeleton.
  *
  * Builds and mounts a loading skeleton that mirrors the layout of the marketing
- * landing page (index.html): hero, stats, biggest-drop callout, features grid,
+ * landing page (index.html): hero, biggest-drop callout, features grid, points,
  * how-it-works, FAQ, and CTA. Matches the real section heights so swapping in
  * the actual content does not cause layout shift.
  *
@@ -82,24 +82,6 @@ function heroSection() {
   ]);
 }
 
-function statsSection() {
-  const header = h('div', 'dz-sk-section__header', [
-    createSkeleton({ variant: 'text', w: '8rem', h: '0.85rem', r: 4 }),
-    createSkeleton({ variant: 'text', w: '60%', h: '2.25rem', r: 8 }),
-    createSkeleton({ variant: 'text', w: '40%', h: '1rem', r: 6 }),
-  ]);
-  const grid = h('div', 'dz-sk-stats-grid',
-    Array.from({ length: 4 }, () =>
-      h('div', 'dz-sk-stat', [
-        createSkeleton({ variant: 'text', w: '55%', h: '2.25rem', r: 8 }),
-        createSkeleton({ variant: 'text', w: '80%', h: '0.85rem', r: 4 }),
-        createSkeleton({ variant: 'text', w: '70%', h: '0.75rem', r: 4 }),
-      ]),
-    ),
-  );
-  return h('section', 'dz-sk-section', [h('div', 'dz-sk-container', [header, grid])]);
-}
-
 function biggestDropSection() {
   return h('section', 'dz-sk-section', [
     h('div', 'dz-sk-container', [
@@ -144,9 +126,15 @@ function featuresSection() {
     ),
   ]);
 
-  const mid = h('div', 'dz-sk-feat dz-sk-feat--mid', [
+  const mid = (variant = 0) => h('div', 'dz-sk-feat dz-sk-feat--mid', [
     h('div', 'dz-sk-feat__copy', [
-      createSkeleton({ variant: 'text', w: '60%', h: '1.2rem', r: 6 }),
+      // Top row: icon block + Live badge (mirrors the real cards)
+      h('div', 'dz-sk-feat__chart-row', [
+        createSkeleton({ variant: 'block', w: '2.25rem', h: '2.25rem', r: 8 }),
+        createSkeleton({ variant: 'text', w: '0', h: '0.7rem', r: 4 }),
+        createSkeleton({ variant: 'pill', w: '2.5rem', h: '0.9rem', r: 999 }),
+      ]),
+      createSkeleton({ variant: 'text', w: variant === 0 ? '70%' : '60%', h: '1.2rem', r: 6 }),
       createSkeletonParagraph({ lines: 2, lineHeight: '0.85rem', widths: [95, 75] }),
     ]),
     h('div', 'dz-sk-feat__bars',
@@ -164,11 +152,34 @@ function featuresSection() {
 
   const grid = h('div', 'dz-sk-feat-grid', [
     big,
-    mid,
-    small(0), small(1), small(2), small(3),
+    mid(0), mid(1),
+    small(0), small(1), small(2), small(3), small(4), small(5),
   ]);
 
   return h('section', 'dz-sk-section', [h('div', 'dz-sk-container', [header, grid])]);
+}
+
+function pointsSection() {
+  return h('section', 'dz-sk-section', [
+    h('div', 'dz-sk-container', [
+      h('div', 'dz-sk-bigdrop', [
+        h('div', 'dz-sk-bigdrop__left', [
+          createSkeleton({ variant: 'pill', w: '7rem', h: '1.2rem', r: 999 }),
+          createSkeleton({ variant: 'text', w: '85%', h: '2.5rem', r: 8 }),
+          createSkeleton({ variant: 'text', w: '60%', h: '2.5rem', r: 8 }),
+          createSkeletonParagraph({ lines: 3, lineHeight: '0.95rem', widths: [95, 90, 70] }),
+          h('div', 'dz-sk-feat__bars',
+            Array.from({ length: 3 }, () =>
+              createSkeleton({ variant: 'block', w: '100%', h: '0.9rem', r: 6 }),
+            ),
+          ),
+        ]),
+        h('div', 'dz-sk-bigdrop__right', [
+          createSkeleton({ variant: 'image', w: '100%', h: '100%', r: 16 }),
+        ]),
+      ]),
+    ]),
+  ]);
 }
 
 function howSection() {
@@ -194,7 +205,7 @@ function faqSection() {
     createSkeleton({ variant: 'text', w: '50%', h: '2.25rem', r: 8 }),
   ]);
   const list = h('div', 'dz-sk-faq-list',
-    Array.from({ length: 5 }, () =>
+    Array.from({ length: 7 }, () =>
       h('div', 'dz-sk-faq-row', [
         createSkeleton({ variant: 'text', w: '70%', h: '1.1rem', r: 6 }),
         createSkeleton({ variant: 'block', w: '1rem', h: '1rem', r: 4 }),
@@ -230,9 +241,9 @@ function ctaSection() {
 function build() {
   const frag = document.createDocumentFragment();
   frag.appendChild(heroSection());
-  frag.appendChild(statsSection());
   frag.appendChild(biggestDropSection());
   frag.appendChild(featuresSection());
+  frag.appendChild(pointsSection());
   frag.appendChild(howSection());
   frag.appendChild(faqSection());
   frag.appendChild(ctaSection());
