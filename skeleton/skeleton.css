@@ -1,0 +1,1200 @@
+/*
+ * DROPZONE — Skeleton loading styles.
+ *
+ * Used by js/components/Skeleton.js + js/components/HomepageSkeleton.js to
+ * paint a layout-matching placeholder for the marketing landing page while
+ * fonts, CSS, and images settle. Header/nav stay in the real DOM and remain
+ * visible; only <main id="main-content"> is masked.
+ *
+ * Theming hooks consume the existing landing-page CSS variables
+ * (--background, --card, --border, --muted, --primary, --radius) so the
+ * shimmer reads correctly in dark mode (the default) and any future light
+ * mode without further work.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Loading-state visibility switch
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* While loading, the real homepage <main> is hidden. We don't use display:none
+   on <main> so its reserved size still informs layout calculations the
+   browser does for the skeleton container, but visibility:hidden keeps it
+   from painting and avoids a flash. */
+html[data-loading="true"] main#main-content {
+  visibility: hidden;
+}
+
+/* Once loading completes, the skeleton container is removed by JS — but
+   defensively hide it if it's still around. */
+html[data-loading="false"] #homepage-skeleton {
+  display: none;
+}
+
+#homepage-skeleton {
+  display: block;
+  width: 100%;
+  color: transparent;
+  transition: opacity 280ms ease;
+}
+
+.dz-sk-host--leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Shimmer primitive
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* These derive from the page's own tokens so the skeleton blends in. */
+  --dz-sk-base: color-mix(in oklab, var(--card, #1a1726) 92%, var(--foreground, #fff) 4%);
+  --dz-sk-highlight: color-mix(in oklab, var(--card, #1a1726) 70%, var(--primary, #7c3aed) 18%);
+  --dz-sk-radius: 8px;
+}
+
+.dz-sk {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: var(--dz-sk-base);
+  border-radius: var(--dz-sk-radius);
+  isolation: isolate;
+}
+
+.dz-sk::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    100deg,
+    transparent 0%,
+    color-mix(in oklab, var(--dz-sk-highlight) 50%, transparent) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: dz-sk-shimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+
+@keyframes dz-sk-shimmer {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Variant shapes — visual only; sizes come from JS via inline styles. */
+.dz-sk--block  { border-radius: var(--dz-sk-radius); }
+.dz-sk--text   { border-radius: 6px; display: inline-block; }
+.dz-sk--pill   { border-radius: 999px; }
+.dz-sk--circle { border-radius: 999px; }
+.dz-sk--image  { border-radius: 14px; }
+.dz-sk--ghost  { background: transparent; border: 1px solid var(--border); }
+.dz-sk--ghost::after { animation: none; }
+
+/* Reduced motion: drop the shimmer in favor of a soft pulse. */
+@media (prefers-reduced-motion: reduce) {
+  .dz-sk::after {
+    animation: dz-sk-pulse 2.4s ease-in-out infinite;
+    background-image: none;
+    background-color: color-mix(in oklab, var(--dz-sk-highlight) 30%, transparent);
+    transform: none;
+  }
+  @keyframes dz-sk-pulse {
+    0%, 100% { opacity: 0; }
+    50%      { opacity: 1; }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Layout — sections + container
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dz-sk-section {
+  width: 100%;
+  padding: 5rem 0;
+}
+.dz-sk-section--hero {
+  padding: 4rem 0 5rem;
+}
+
+.dz-sk-container {
+  width: 100%;
+  max-width: 80rem; /* mirrors max-w-7xl */
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+@media (min-width: 640px) {
+  .dz-sk-container { padding: 0 1.5rem; }
+}
+.dz-sk-container--narrow {
+  max-width: 56rem;
+}
+
+.dz-sk-section__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.dz-sk-section__header > .dz-sk--text { width: auto; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Hero
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dz-sk-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .dz-sk-hero { grid-template-columns: 1.05fr 1fr; gap: 4rem; }
+}
+
+.dz-sk-hero__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.dz-sk-hero__title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.dz-sk-hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+.dz-sk-hero__logos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.dz-sk-hero__logos-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.dz-sk-hero__visual {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+  min-height: 22rem;
+}
+@media (max-width: 639px) {
+  .dz-sk-hero__visual { grid-template-columns: 1fr; min-height: auto; }
+  .dz-sk-stream-card { height: 16rem; }
+}
+
+.dz-sk-stream-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--card, #1a1726) 80%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.08));
+  height: 20rem;
+}
+.dz-sk-stream-card--a { transform: translateY(0); }
+.dz-sk-stream-card--b { transform: translateY(1.5rem); }
+@media (max-width: 639px) {
+  .dz-sk-stream-card--b { transform: none; }
+}
+
+.dz-sk-stream-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dz-sk-stream-card__media {
+  flex: 1;
+  min-height: 8rem;
+}
+.dz-sk-stream-card__foot {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.dz-sk-stream-card__foot-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.dz-sk-hero__ticker {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--card, #1a1726) 80%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.08));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Stats / biggest drop
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dz-sk-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .dz-sk-stats-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+}
+.dz-sk-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.5rem 1.25rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--card, #1a1726) 70%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+}
+
+.dz-sk-bigdrop {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--card, #1a1726) 80%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.08));
+}
+@media (min-width: 768px) {
+  .dz-sk-bigdrop { grid-template-columns: 1.1fr 1fr; gap: 3rem; padding: 3rem; align-items: center; }
+}
+.dz-sk-bigdrop__left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.dz-sk-bigdrop__right { min-height: 16rem; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Features grid
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dz-sk-feat-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 768px) {
+  .dz-sk-feat-grid {
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(0, auto);
+  }
+  .dz-sk-feat--big { grid-column: span 4; grid-row: span 2; }
+  .dz-sk-feat--mid { grid-column: span 2; grid-row: span 2; }
+  .dz-sk-feat--sm  { grid-column: span 3; }
+}
+@media (min-width: 1024px) {
+  .dz-sk-feat-grid { grid-template-columns: repeat(6, 1fr); }
+  .dz-sk-feat--sm  { grid-column: span 3; }
+  .dz-sk-feat--sm:nth-of-type(n+5) { grid-column: span 3; }
+}
+
+.dz-sk-feat {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: color-mix(in oklab, var(--card, #1a1726) 75%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.07));
+  min-height: 12rem;
+}
+.dz-sk-feat--big { min-height: 22rem; }
+.dz-sk-feat--mid { min-height: 22rem; }
+
+.dz-sk-feat__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.dz-sk-feat__chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--background, #0b0a12) 60%, transparent);
+}
+.dz-sk-feat__chart-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.dz-sk-feat__chart-row > .dz-sk--text { flex: 1; }
+.dz-sk-feat__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: auto;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   How it works
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dz-sk-how-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .dz-sk-how-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+}
+.dz-sk-how-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.75rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--card, #1a1726) 70%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+  min-height: 12rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   FAQ
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dz-sk-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.dz-sk-faq-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--card, #1a1726) 70%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   CTA
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dz-sk-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  border-radius: 22px;
+  background: color-mix(in oklab, var(--card, #1a1726) 78%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.08));
+}
+.dz-sk-cta .dz-sk-hero__ctas { justify-content: center; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Utility — shared row layout used by createSkeletonChips
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dz-sk-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Login / auth skeleton (login.html)
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Hide every real auth-step section while loading. The skeleton lives in
+   #login-skeleton and stands in for whichever step the URL selects.
+   Scoped with :has() so this only applies on /login (signup has its own
+   #signup-skeleton hook above). */
+html[data-loading="true"]:has(#login-skeleton) main .auth-step { display: none; }
+html[data-loading="false"] #login-skeleton { display: none; }
+
+#login-skeleton {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  padding: 1rem 1.25rem 1.5rem;
+  transition: opacity 280ms ease;
+}
+
+.dz-sk-auth__shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: 36rem;
+  margin: 0 auto;
+  gap: 2.5rem;
+}
+
+.dz-sk-auth__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.dz-sk-auth__card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.dz-sk-auth__step {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.dz-sk-auth__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  width: 100%;
+}
+.dz-sk-auth__header > .dz-sk--text { width: 60%; }
+
+.dz-sk-auth__role-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .dz-sk-auth__role-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.dz-sk-auth__role-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.25rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--card, #1a1726) 78%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.07));
+  min-height: 5.5rem;
+}
+.dz-sk-auth__role-copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dz-sk-auth__conn-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+}
+.dz-sk-auth__conn-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--card, #1a1726) 78%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.07));
+}
+.dz-sk-auth__conn-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
+  min-width: 0;
+}
+.dz-sk-auth__conn-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.dz-sk-auth__footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.75rem;
+}
+
+.dz-sk-auth__legal {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   App SPA skeleton (app.html)
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* While loading, hide every routed .page; only the skeleton paints inside .main. */
+html[data-loading="true"] .main .page { display: none !important; }
+html[data-loading="false"] #app-skeleton { display: none; }
+
+#app-skeleton {
+  display: block;
+  width: 100%;
+  padding: 1rem 1.25rem 1.5rem;
+  transition: opacity 280ms ease;
+}
+
+.dz-sk-app__page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.dz-sk-app__page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dz-sk-app__row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── stats ── */
+.dz-sk-app__stats {
+  display: grid;
+  gap: 0.85rem;
+}
+.dz-sk-app__stats--3 { grid-template-columns: repeat(1, 1fr); }
+.dz-sk-app__stats--4 { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 768px) {
+  .dz-sk-app__stats--3 { grid-template-columns: repeat(3, 1fr); }
+  .dz-sk-app__stats--4 { grid-template-columns: repeat(4, 1fr); }
+}
+.dz-sk-app__stat {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--card, #1a1726) 75%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+  min-height: 5rem;
+}
+.dz-sk-app__stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── card primitive ── */
+.dz-sk-app__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--card, #1a1726) 75%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+}
+.dz-sk-app__card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* ── table-like blocks ── */
+.dz-sk-app__t-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.dz-sk-app__t-head,
+.dz-sk-app__t-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.5rem;
+}
+.dz-sk-app__t-head { padding-bottom: 0.4rem; border-bottom: 1px solid var(--border, rgba(255,255,255,0.05)); }
+.dz-sk-app__t-row + .dz-sk-app__t-row { border-top: 1px dashed color-mix(in oklab, var(--border, rgba(255,255,255,0.04)) 60%, transparent); }
+.dz-sk-app__t-head > .dz-sk--text,
+.dz-sk-app__t-row > .dz-sk--text {
+  flex: 0 0 auto;
+}
+
+/* ── stream grid (browse) ── */
+.dz-sk-app__stream-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 640px) { .dz-sk-app__stream-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .dz-sk-app__stream-grid { grid-template-columns: repeat(3, 1fr); } }
+.dz-sk-app__stream-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.65rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--card, #1a1726) 70%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+}
+.dz-sk-app__stream-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.dz-sk-app__stream-meta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── lists (followings / dashboard side list) ── */
+.dz-sk-app__list {
+  display: flex;
+  flex-direction: column;
+}
+.dz-sk-app__list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 0.25rem;
+}
+.dz-sk-app__list-row + .dz-sk-app__list-row {
+  border-top: 1px dashed color-mix(in oklab, var(--border, rgba(255,255,255,0.05)) 70%, transparent);
+}
+.dz-sk-app__list-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── ticker ── */
+.dz-sk-app__ticker {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--card, #1a1726) 70%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+}
+
+/* ── stream watch page ── */
+.dz-sk-app__stream-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 1024px) {
+  .dz-sk-app__stream-layout { grid-template-columns: 2.2fr 1fr; }
+}
+.dz-sk-app__stream-main { display: flex; flex-direction: column; gap: 1.1rem; }
+.dz-sk-app__stream-side { display: flex; flex-direction: column; gap: 1rem; min-height: 30rem; }
+.dz-sk-app__stream-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--card, #1a1726) 70%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+}
+.dz-sk-app__stream-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+}
+.dz-sk-app__chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: 26rem;
+  overflow: hidden;
+}
+.dz-sk-app__chat-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.25rem 0.15rem;
+}
+
+/* ── connections (profile pages) ── */
+.dz-sk-app__conn-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.dz-sk-app__conn-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+  background: color-mix(in oklab, var(--card, #1a1726) 65%, transparent);
+}
+.dz-sk-app__conn-copy { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; min-width: 0; }
+
+/* ── chips ── */
+.dz-sk-app__chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* ── triggers ── */
+.dz-sk-app__trig-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+@media (min-width: 900px) { .dz-sk-app__trig-grid { grid-template-columns: 1fr 1fr; } }
+.dz-sk-app__trig-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--background, #0b0a12) 50%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+}
+.dz-sk-app__trig-info { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; min-width: 0; }
+.dz-sk-app__trig-range { display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-end; }
+
+/* ── 2:1 grid (dashboard) and 1:1 grid (health) ── */
+.dz-sk-app__g21,
+.dz-sk-app__g2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 1024px) {
+  .dz-sk-app__g21 { grid-template-columns: 2fr 1fr; }
+  .dz-sk-app__g2  { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── dashboard chart ── */
+.dz-sk-app__chart { display: flex; flex-direction: column; gap: 0.85rem; }
+.dz-sk-app__chart-legend { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+
+/* ── feed list ── */
+.dz-sk-app__feed { display: flex; flex-direction: column; }
+.dz-sk-app__feed-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.15rem;
+}
+.dz-sk-app__feed-row + .dz-sk-app__feed-row {
+  border-top: 1px dashed color-mix(in oklab, var(--border, rgba(255,255,255,0.05)) 65%, transparent);
+}
+.dz-sk-app__feed-row > .dz-sk--text:first-of-type { flex: 1; }
+
+/* ── wizard (onboard) ── */
+.dz-sk-app__wiz-steps {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.dz-sk-app__wiz-step {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--card, #1a1726) 65%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+}
+.dz-sk-app__wiz-step.is-active {
+  background: color-mix(in oklab, var(--primary, #7c3aed) 16%, transparent);
+}
+.dz-sk-app__wiz-body { display: flex; flex-direction: column; gap: 1rem; }
+.dz-sk-app__wiz-actions { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+
+/* ── form rows (wallet deposit) ── */
+.dz-sk-app__form-row { display: flex; flex-direction: column; gap: 0.45rem; }
+.dz-sk-app__wallet-deposit { display: flex; flex-direction: column; gap: 1rem; }
+
+/* ── health rows ── */
+.dz-sk-app__health-list { display: flex; flex-direction: column; }
+.dz-sk-app__health-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 0.25rem;
+}
+.dz-sk-app__health-row + .dz-sk-app__health-row {
+  border-top: 1px dashed color-mix(in oklab, var(--border, rgba(255,255,255,0.05)) 65%, transparent);
+}
+.dz-sk-app__health-info { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; min-width: 0; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Signup skeleton (signup.html)
+   ─────────────────────────────────────────────────────────────────────────
+   Signup reuses the auth-step silhouettes from LoginSkeleton, so all the
+   .dz-sk-auth__* layout above also applies here. We only need the host
+   gates + the same flex column layout as #login-skeleton. */
+
+html[data-loading="true"]:has(#signup-skeleton)  main .auth-step  { display: none; }
+html[data-loading="false"] #signup-skeleton                       { display: none; }
+
+#signup-skeleton {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  padding: 1rem 1.25rem 1.5rem;
+  transition: opacity 280ms ease;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Support skeleton (support.html)
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Mask the page body while loading, keep the fixed top nav visible.
+   Scoped with :has() so the rule only applies on pages that mount the
+   support skeleton — `.page` and `.foot` are generic class names used by
+   404.html too, and we don't want cross-page bleed. */
+html[data-loading="true"]:has(#support-skeleton)  body > .page  { visibility: hidden; }
+html[data-loading="true"]:has(#support-skeleton)  body > .foot  { visibility: hidden; }
+html[data-loading="false"] #support-skeleton                    { display: none; }
+
+#support-skeleton {
+  display: block;
+  width: 100%;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow-y: auto;
+  padding: 120px 32px 80px;
+  background: var(--b0, #06060b);
+  transition: opacity 280ms ease;
+}
+
+.dz-sk-sup__wrap {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dz-sk-sup__hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+.dz-sk-sup__hero > .dz-sk--text { width: auto; }
+
+.dz-sk-sup__cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 700px) {
+  .dz-sk-sup__cards { grid-template-columns: 1fr 1fr; }
+}
+
+.dz-sk-sup__channels {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dz-sk-sup__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.75rem;
+  border-radius: 20px;
+  background: color-mix(in oklab, var(--card, #111119) 70%, transparent);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.07));
+}
+.dz-sk-sup__card--form { min-height: 24rem; }
+.dz-sk-sup__card--discord { flex: 1; min-height: 14rem; }
+.dz-sk-sup__card--direct { gap: 0.6rem; }
+
+.dz-sk-sup__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+.dz-sk-sup__form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.dz-sk-sup__direct-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.dz-sk-sup__faq {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.dz-sk-sup__faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.dz-sk-sup__faq-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--card, #111119) 55%, transparent);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.07));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Legal skeleton (privacy.html, terms.html)
+   ───────────────────────────────────────────────────────────────────────── */
+
+html[data-loading="true"]:has(#legal-skeleton)  body > main.wrap  { visibility: hidden; }
+html[data-loading="true"]:has(#legal-skeleton)  body > nav.nav    { visibility: hidden; }
+html[data-loading="false"] #legal-skeleton                        { display: none; }
+
+#legal-skeleton {
+  display: block;
+  width: 100%;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow-y: auto;
+  background: var(--background, #0b0a12);
+  transition: opacity 280ms ease;
+}
+
+.dz-sk-legal__wrap {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1rem 1.75rem 5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.dz-sk-legal__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0 2.25rem;
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  margin-bottom: 2.5rem;
+}
+.dz-sk-legal__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.dz-sk-legal__article {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dz-sk-legal__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.dz-sk-legal__header > .dz-sk--text { width: auto; }
+
+.dz-sk-legal__callout {
+  border-left: 2px solid color-mix(in oklab, var(--primary, #8b5cf6) 70%, transparent);
+  background: color-mix(in oklab, var(--primary, #8b5cf6) 6%, transparent);
+  padding: 0.85rem 1.1rem;
+  border-radius: 0 10px 10px 0;
+  margin: 0.85rem 0 0.5rem;
+}
+
+.dz-sk-legal__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.dz-sk-legal__h2 { margin-top: 0.5rem; }
+
+.dz-sk-legal__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-left: 1.25rem;
+}
+.dz-sk-legal__list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.dz-sk-legal__list-row > .dz-sk--text { flex: 0 1 auto; }
+
+.dz-sk-legal__foot {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  display: flex;
+  justify-content: center;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   404 skeleton (404.html)
+   ───────────────────────────────────────────────────────────────────────── */
+
+html[data-loading="true"]:has(#notfound-skeleton)  body > main.page  { visibility: hidden; }
+html[data-loading="false"] #notfound-skeleton                        { display: none; }
+
+#notfound-skeleton {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  background: var(--background, #0b0a12);
+  transition: opacity 280ms ease;
+}
+
+.dz-sk-404__shell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.dz-sk-404__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.5rem;
+}
+@media (min-width: 640px) {
+  .dz-sk-404__topbar { padding: 1.25rem 2rem; }
+}
+.dz-sk-404__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.dz-sk-404__brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.dz-sk-404__center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+}
+.dz-sk-404__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  width: 100%;
+  max-width: 36rem;
+}
+
+.dz-sk-404__pill-row {
+  display: flex;
+  justify-content: center;
+}
+
+.dz-sk-404__wordmark {
+  width: 100%;
+  max-width: 28rem;
+  height: 8rem;
+  display: flex;
+}
+@media (min-width: 640px) {
+  .dz-sk-404__wordmark { height: 10rem; max-width: 32rem; }
+}
+
+.dz-sk-404__headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+.dz-sk-404__headline > .dz-sk--text { width: auto; }
+.dz-sk-404__path-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--card, #1a1726) 65%, transparent);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  margin-top: 0.25rem;
+}
+
+.dz-sk-404__cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.dz-sk-404__shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.dz-sk-404__foot {
+  display: flex;
+  justify-content: center;
+  padding: 1.25rem 1.5rem 1.75rem;
+}

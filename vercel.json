@@ -1,0 +1,73 @@
+{
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "framework": null,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/app", "destination": "/app.html" },
+    { "source": "/app/browse", "destination": "/app.html" },
+    { "source": "/app/followings", "destination": "/app.html" },
+    { "source": "/app/stream", "destination": "/app.html" },
+    { "source": "/app/my-drops", "destination": "/app.html" },
+    { "source": "/app/profile", "destination": "/app.html" },
+    { "source": "/app/s/dashboard", "destination": "/app.html" },
+    { "source": "/app/s/wallet", "destination": "/app.html" },
+    { "source": "/app/s/triggers", "destination": "/app.html" },
+    { "source": "/app/s/pool", "destination": "/app.html" },
+    { "source": "/app/s/history", "destination": "/app.html" },
+    { "source": "/app/s/health", "destination": "/app.html" },
+    { "source": "/app/s/profile", "destination": "/app.html" },
+    { "source": "/app/s/onboard", "destination": "/app.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "interest-cohort=(), browsing-topics=()" }
+      ]
+    },
+    {
+      "source": "/(app|app/.*|app\\.html|mobile|mobile/.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(css|js|skeleton)/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, immutable" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+# https://dropzona.tv — robots.txt
+# Production crawl directives for Dropzona.
+
+User-agent: *
+Allow: /
+
+# Logged-in app surface — served from app.html via Vercel rewrites.
+# Block all /app and /app/* routes, plus direct file access.
+Disallow: /app
+Disallow: /app/
+Disallow: /app.html
+Disallow: /mobile/
+Disallow: /mobile
+
+# Internal asset directories that should never be indexed.
+Disallow: /js/
+Disallow: /css/
+Disallow: /skeleton/
+Disallow: /docs/
+Disallow: /node_modules/
+
+# AI crawlers — explicitly allowed (per product owner).
+# Remove these blocks if you want to opt out of AI training/answer-engine indexing.
+User-agent: GPTBot
+Allow: /
+Disallow: /app
+Disallow: /app/
+Disallow: /app.html
+Disallow: /mobile/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /app
+Disallow: /app/
+Disallow: /app.html
+Disallow: /mobile/
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /app
+Disallow: /app/
+Disallow: /app.html
+Disallow: /mobile/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /app
+Disallow: /app/
+Disallow: /app.html
+Disallow: /mobile/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /app
+Disallow: /app/
+Disallow: /app.html
+Disallow: /mobile/
+
+User-agent: CCBot
+Allow: /
+Disallow: /app
+Disallow: /app/
+Disallow: /app.html
+Disallow: /mobile/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /app
+Disallow: /app/
+Disallow: /app.html
+Disallow: /mobile/
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Block known low-quality scrapers
+User-agent: Bytespider
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+Sitemap: https://dropzona.tv/sitemap.xml

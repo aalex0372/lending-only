@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign up | Dropzona — Automated CS2 Skin Drops</title>
+  <meta name="description" content="Create your Dropzona account. Automated CS2 skin drops for Twitch streamers — connect Twitch and Steam to start, or join as a viewer to receive skins from streams you watch."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://dropzona.tv/signup.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Dropzona"/>
+  <meta property="og:title" content="Sign up | Dropzona"/>
+  <meta property="og:description" content="Create your Dropzona account — automated CS2 skin drops for Twitch."/>
+  <meta property="og:url" content="https://dropzona.tv/signup.html"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://dropzona.tv/opengraph-image.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@dropzona"/>
+  <meta name="twitter:title" content="Sign up | Dropzona"/>
+  <meta name="twitter:description" content="Create your Dropzona account — automated CS2 skin drops for Twitch."/>
+  <meta name="twitter:image" content="https://dropzona.tv/twitter-image.png"/>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"Sign up for Dropzona","url":"https://dropzona.tv/signup.html","inLanguage":"en-US","isPartOf":{"@type":"WebSite","name":"Dropzona","url":"https://dropzona.tv/"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dropzona.tv/"},{"@type":"ListItem","position":2,"name":"Sign up","item":"https://dropzona.tv/signup.html"}]}
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/%3E%3C/svg%3E" type="image/svg+xml">
+  <meta name="theme-color" content="#0b0a12"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/landing.css"/>
+  <style>
+    /* Auth-specific tweaks */
+    .auth-step{display:none}
+    .auth-step.active{display:flex}
+    .auth-card-disabled{opacity:.5;pointer-events:none}
+    .auth-input-error{border-color:rgba(244,63,94,.55)!important;color:rgba(252,165,165,.95)!important}
+    .auth-input-error::placeholder{color:rgba(244,63,94,.4)!important}
+  </style>
+  <script>try{document.documentElement.dataset.loading='true'}catch(_){}</script>
+  <link rel="stylesheet" href="skeleton/skeleton.css"/>
+</head>
+<body class="antialiased">
+  <div id="signup-skeleton" role="status" aria-busy="true" aria-live="polite" aria-label="Loading sign up"></div>
+  <main class="from-background to-background-darken relative flex max-h-screen min-h-screen w-full flex-col overflow-y-auto bg-linear-150">
+    <!-- Ambient context -->
+    <div class="bg-primary/8 pointer-events-none fixed -top-40 left-[15%] -z-10 size-[560px] rounded-full blur-[140px]"></div>
+    <div class="pointer-events-none fixed -bottom-40 right-[10%] -z-10 size-[420px] rounded-full bg-cyan-500/5 blur-[120px]"></div>
+
+    <!-- Top chrome -->
+    <header class="relative flex w-full items-center justify-between px-5 py-4 sm:px-8">
+      <a href="/" class="flex items-center gap-2.5">
+        <div class="from-primary shadow-primary/40 flex size-8 items-center justify-center rounded-lg bg-linear-[135deg] to-[#a78bfa] shadow-[0_0_20px]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap stroke-white" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>
+        </div>
+        <div class="flex flex-col font-mono leading-none">
+          <span class="text-sm font-bold tracking-[3px] text-white uppercase">Dropzona</span>
+          <span class="text-muted-foreground/40 text-[9px] tracking-widest">BETA v0.4</span>
+        </div>
+      </a>
+    </header>
+
+    <!-- Centered content -->
+    <div class="relative flex flex-1 items-center justify-center px-4 pb-12 sm:px-6">
+      <div id="authRoot" class="flex flex-col gap-6 w-full max-w-xl">
+
+        <!-- STEP 1: Pick role -->
+        <section id="step-role" class="auth-step active flex w-full max-w-xl flex-col items-center justify-center gap-8">
+          <header class="flex flex-col items-center gap-2.5 text-center">
+            <span class="bg-primary/15 ring-primary/25 flex size-10 items-center justify-center rounded-md ring-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary size-5" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.79 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="M6.376 18.91a6 6 0 0 1 11.249.003"></path><circle cx="12" cy="11" r="4"></circle></svg>
+            </span>
+            <span class="text-muted-foreground/50 font-mono text-[10px] tracking-[2px] uppercase">Step 1 of 2</span>
+            <h1 class="font-sans text-[26px] font-semibold tracking-tight text-white">Pick your role</h1>
+            <p class="text-muted-foreground/70 max-w-sm font-sans text-[13px] leading-5">
+              Your rewards and experience adapt to your choice. You can switch any time from your profile.
+            </p>
+          </header>
+
+          <div class="grid w-full gap-3 sm:grid-cols-2">
+            <button type="button" data-role="viewer" class="role-card bg-sidebar-accent border-border/50 hover:border-primary/40 hover:bg-foreground/40 group cursor-pointer rounded-[16px] border p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_0] hover:shadow-black/30 text-left">
+              <div class="flex flex-col items-center justify-center gap-2">
+                <div class="bg-primary/10 ring-primary/20 group-hover:bg-primary/15 flex size-12 items-center justify-center rounded-md ring-1 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary size-6"><path d="M12 20c.94-4.27 5-7 8-7"></path><path d="M16 13c0-1.5.5-3 2-4.5"></path><path d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </div>
+                <span class="font-sans text-[14px] font-semibold text-white">Continue as Viewer</span>
+                <span class="text-muted-foreground/55 text-center font-sans text-[11.5px] leading-4">Watch streams · win real skins</span>
+              </div>
+            </button>
+            <button type="button" data-role="streamer" class="role-card bg-sidebar-accent border-border/50 hover:border-primary/40 hover:bg-foreground/40 group cursor-pointer rounded-[16px] border p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_0] hover:shadow-black/30 text-left">
+              <div class="flex flex-col items-center justify-center gap-2">
+                <div class="bg-primary/10 ring-primary/20 group-hover:bg-primary/15 flex size-12 items-center justify-center rounded-md ring-1 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary size-6"><path d="M5.5 20H8"></path><path d="M17 9h.01"></path><rect width="10" height="16" x="12" y="4" rx="2"></rect><path d="M8 6H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4"></path><path d="M7 12h.01"></path></svg>
+                </div>
+                <span class="font-sans text-[14px] font-semibold text-white">Continue as Streamer</span>
+                <span class="text-muted-foreground/55 text-center font-sans text-[11.5px] leading-4">Run drops · grow your community</span>
+              </div>
+            </button>
+          </div>
+        </section>
+
+        <!-- STEP 2 (VIEWER): Connect accounts -->
+        <section id="step-viewer" class="auth-step flex w-full max-w-xl flex-col items-center justify-center gap-6">
+          <header class="flex flex-col items-center gap-2.5 text-center">
+            <span class="bg-primary/15 ring-primary/25 flex size-10 items-center justify-center rounded-md ring-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary size-5"><path d="M17 21h-2a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h2"></path><path d="M11 7H7a4 4 0 0 0-4 4v2a4 4 0 0 0 4 4h4"></path></svg>
+            </span>
+            <span class="text-muted-foreground/50 font-mono text-[10px] tracking-[2px] uppercase">Step 2 of 2</span>
+            <h2 class="font-sans text-[26px] font-semibold tracking-tight text-white">Connect your accounts</h2>
+            <p class="text-muted-foreground/70 max-w-sm font-sans text-[13px] leading-5">
+              To participate in drops and receive rewards, connect your Twitch account and add your Steam Trade URL.
+            </p>
+          </header>
+
+          <div class="flex w-full flex-col items-center gap-4">
+            <!-- Twitch card -->
+            <div id="viewer-twitch" class="border-border/75 hover:bg-foreground/20 flex w-full items-center justify-between gap-6 rounded-lg border px-5 py-4 transition-colors">
+              <div class="flex min-w-0 items-center gap-4">
+                <div style="color:#8b5cf6;background:#8b5cf615" class="flex size-11 shrink-0 items-center justify-center rounded-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zM11 11V7M16 11V7"></path></svg>
+                </div>
+                <div class="flex min-w-0 flex-col font-sans">
+                  <h3 class="text-[13px] font-semibold text-white">Twitch Account</h3>
+                  <span class="text-muted-foreground/60 truncate text-[11px] leading-3">Required to participate in drops</span>
+                </div>
+              </div>
+              <button type="button" data-connect="twitch" data-role="viewer" style="color:#8b5cf6;background:#8b5cf615" class="connect-btn inline-flex items-center justify-center gap-1.5 rounded-md px-4 py-2 cursor-pointer font-sans text-[12px] font-semibold brightness-75 transition-all hover:brightness-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                <span class="mt-px connect-label">Connect</span>
+              </button>
+            </div>
+
+            <!-- Steam Trade URL card -->
+            <div id="viewer-steam" class="border-border/75 hover:bg-foreground/20 flex w-full gap-6 rounded-lg border px-5 py-4 transition-colors opacity-50 pointer-events-none">
+              <div class="flex w-full flex-col gap-4">
+                <div class="flex items-center justify-between gap-4">
+                  <div class="flex min-w-0 items-center gap-4">
+                    <div style="color:#22d3ee;background:#22d3ee15" class="flex size-11 shrink-0 items-center justify-center rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"></path><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"></path><path d="m21 3 1 11h-2"></path><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"></path><path d="M3 4h8"></path></svg>
+                    </div>
+                    <div class="flex min-w-0 flex-col font-sans">
+                      <h3 class="text-[13px] font-semibold text-white">Steam Trade URL</h3>
+                      <span class="text-muted-foreground/60 truncate text-[11px] leading-3">Steam → Inventory → Trade Offers → "Who can send me trade offers?"</span>
+                    </div>
+                  </div>
+                  <button type="button" id="viewer-steam-submit" style="color:#22d3ee;background:#22d3ee15" class="inline-flex items-center justify-center gap-1.5 rounded-md px-4 py-2 cursor-pointer font-sans text-[12px] font-semibold brightness-75 transition-all hover:brightness-100" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                    <span class="mt-px">Add</span>
+                  </button>
+                </div>
+                <input id="viewer-trade-url" type="text" placeholder="Your Trade URL" disabled class="border border-border/75 placeholder:text-muted-foreground/30 h-8 bg-transparent text-xs text-white transition placeholder:text-xs rounded-md px-3 outline-none focus:border-primary/40"/>
+                <p id="viewer-trade-error" class="text-destructive/80 text-[11px] hidden">Please enter a valid Steam Trade URL.</p>
+              </div>
+            </div>
+          </div>
+
+          <footer class="flex w-full items-center justify-between">
+            <button type="button" data-back class="inline-flex items-center justify-center gap-1.5 rounded-md border border-border/50 bg-card hover:bg-foreground/40 hover:text-white text-muted-foreground/80 cursor-pointer px-4 py-1.5 font-sans text-[12px] font-semibold transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+              <span class="mt-px">Back</span>
+            </button>
+            <button type="button" id="viewer-continue" disabled class="inline-flex items-center justify-center gap-1.5 rounded-md border border-border/50 bg-card hover:bg-foreground/40 hover:text-white text-muted-foreground/80 cursor-pointer px-4 py-1.5 font-sans text-[12px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40">
+              <span class="mt-px">Continue</span>
+            </button>
+          </footer>
+        </section>
+
+        <!-- STEP 2 (STREAMER): Connect accounts -->
+        <section id="step-streamer" class="auth-step flex w-full max-w-xl flex-col items-center justify-center gap-6">
+          <header class="flex flex-col items-center gap-2.5 text-center">
+            <span class="bg-primary/15 ring-primary/25 flex size-10 items-center justify-center rounded-md ring-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary size-5"><path d="M17 21h-2a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h2"></path><path d="M11 7H7a4 4 0 0 0-4 4v2a4 4 0 0 0 4 4h4"></path></svg>
+            </span>
+            <span class="text-muted-foreground/50 font-mono text-[10px] tracking-[2px] uppercase">Step 2 of 2</span>
+            <h2 class="font-sans text-[26px] font-semibold tracking-tight text-white">Connect your accounts</h2>
+            <p class="text-muted-foreground/70 max-w-sm font-sans text-[13px] leading-5">
+              To run drops on your stream, connect your Twitch and Steam accounts. We'll guide you through GSI setup right after.
+            </p>
+          </header>
+
+          <div class="flex w-full flex-col items-center gap-4">
+            <!-- Twitch card -->
+            <div id="streamer-twitch" class="border-border/75 hover:bg-foreground/20 flex w-full items-center justify-between gap-6 rounded-lg border px-5 py-4 transition-colors">
+              <div class="flex min-w-0 items-center gap-4">
+                <div style="color:#8b5cf6;background:#8b5cf615" class="flex size-11 shrink-0 items-center justify-center rounded-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zM11 11V7M16 11V7"></path></svg>
+                </div>
+                <div class="flex min-w-0 flex-col font-sans">
+                  <h3 class="text-[13px] font-semibold text-white">Twitch Account</h3>
+                  <span class="text-muted-foreground/60 truncate text-[11px] leading-3">Required to run drops on your channel</span>
+                </div>
+              </div>
+              <button type="button" data-connect="twitch" data-role="streamer" style="color:#8b5cf6;background:#8b5cf615" class="connect-btn inline-flex items-center justify-center gap-1.5 rounded-md px-4 py-2 cursor-pointer font-sans text-[12px] font-semibold brightness-75 transition-all hover:brightness-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                <span class="mt-px connect-label">Connect</span>
+              </button>
+            </div>
+
+            <!-- Steam OAuth card -->
+            <div id="streamer-steam" class="border-border/75 hover:bg-foreground/20 flex w-full items-center justify-between gap-6 rounded-lg border px-5 py-4 transition-colors opacity-50 pointer-events-none">
+              <div class="flex min-w-0 items-center gap-4">
+                <div style="color:#22d3ee;background:#22d3ee15" class="flex size-11 shrink-0 items-center justify-center rounded-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 12h.01M10 12h.01M14 12h.01M18 12h.01"></path></svg>
+                </div>
+                <div class="flex min-w-0 flex-col font-sans">
+                  <h3 class="text-[13px] font-semibold text-white">Steam Account</h3>
+                  <span class="text-muted-foreground/60 truncate text-[11px] leading-3">Required to fund the drop pool and send trades</span>
+                </div>
+              </div>
+              <button type="button" data-connect="steam" data-role="streamer" style="color:#22d3ee;background:#22d3ee15" class="connect-btn inline-flex items-center justify-center gap-1.5 rounded-md px-4 py-2 cursor-pointer font-sans text-[12px] font-semibold brightness-75 transition-all hover:brightness-100" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                <span class="mt-px connect-label">Connect</span>
+              </button>
+            </div>
+          </div>
+
+          <footer class="flex w-full items-center justify-between">
+            <button type="button" data-back class="inline-flex items-center justify-center gap-1.5 rounded-md border border-border/50 bg-card hover:bg-foreground/40 hover:text-white text-muted-foreground/80 cursor-pointer px-4 py-1.5 font-sans text-[12px] font-semibold transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+              <span class="mt-px">Back</span>
+            </button>
+            <button type="button" id="streamer-continue" disabled class="inline-flex items-center justify-center gap-1.5 rounded-md border border-border/50 bg-card hover:bg-foreground/40 hover:text-white text-muted-foreground/80 cursor-pointer px-4 py-1.5 font-sans text-[12px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40">
+              <span class="mt-px">Continue</span>
+            </button>
+          </footer>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Footer hint -->
+    <footer class="relative flex items-center justify-center pb-6">
+      <span class="text-muted-foreground/40 font-mono text-[10px] tracking-[1.5px] uppercase">
+        Secured by Twitch OAuth · Steam Trade Verification
+      </span>
+    </footer>
+  </main>
+
+<script>
+(function(){
+
+  var state = {
+    role: null,           // 'viewer' | 'streamer'
+    twitch: false,
+    steam: false,
+    tradeUrl: null,
+  };
+
+  // --- Step navigation ---
+  function showStep(id){
+    document.querySelectorAll('.auth-step').forEach(function(s){ s.classList.remove('active'); });
+    var t = document.getElementById(id);
+    if(t) t.classList.add('active');
+    // sync ?step= query so reloads land in the same place
+    try {
+      var u = new URL(location.href);
+      u.searchParams.set('step', id.replace('step-',''));
+      history.replaceState(null, '', u.toString());
+    } catch(e){}
+  }
+
+  function reset(){
+    state.role = null; state.twitch = false; state.steam = false; state.tradeUrl = null;
+    // Reset UI on viewer-flow
+    document.getElementById('viewer-trade-url').value = '';
+    document.getElementById('viewer-trade-url').disabled = true;
+    document.getElementById('viewer-steam').classList.add('opacity-50','pointer-events-none');
+    document.getElementById('viewer-steam-submit').disabled = true;
+    document.getElementById('viewer-trade-error').classList.add('hidden');
+    document.getElementById('viewer-continue').disabled = true;
+    // Reset connect buttons on both flows
+    document.querySelectorAll('.connect-btn').forEach(function(b){
+      var lbl = b.querySelector('.connect-label');
+      if(lbl) lbl.textContent = 'Connect';
+      b.removeAttribute('data-done');
+      b.disabled = false;
+    });
+    // Reset streamer
+    document.getElementById('streamer-steam').classList.add('opacity-50','pointer-events-none');
+    var streamerSteamBtn = document.querySelector('[data-connect="steam"][data-role="streamer"]');
+    if(streamerSteamBtn) streamerSteamBtn.disabled = true;
+    document.getElementById('streamer-continue').disabled = true;
+  }
+
+  // --- Role picker ---
+  document.querySelectorAll('.role-card').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      reset();
+      state.role = btn.getAttribute('data-role');
+      showStep(state.role === 'streamer' ? 'step-streamer' : 'step-viewer');
+    });
+  });
+
+  // --- Back buttons ---
+  document.querySelectorAll('[data-back]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      reset();
+      showStep('step-role');
+    });
+  });
+
+  // --- Connect (Twitch / Steam mocks) ---
+  function setConnected(btn, label){
+    if(!btn) return;
+    btn.setAttribute('data-done','1');
+    btn.disabled = true;
+    var lbl = btn.querySelector('.connect-label');
+    if(lbl){ lbl.textContent = label || 'Connected'; }
+  }
+
+  document.querySelectorAll('[data-connect]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var kind = btn.getAttribute('data-connect');
+      var role = btn.getAttribute('data-role');
+      if(kind === 'twitch'){
+        state.twitch = true;
+        setConnected(btn, '✓ Connected');
+        if(role === 'viewer'){
+          // Unlock Steam Trade URL card
+          document.getElementById('viewer-steam').classList.remove('opacity-50','pointer-events-none');
+          document.getElementById('viewer-trade-url').disabled = false;
+          document.getElementById('viewer-steam-submit').disabled = false;
+        } else {
+          // Unlock Steam OAuth card
+          document.getElementById('streamer-steam').classList.remove('opacity-50','pointer-events-none');
+          var sBtn = document.querySelector('[data-connect="steam"][data-role="streamer"]');
+          if(sBtn) sBtn.disabled = false;
+        }
+      } else if(kind === 'steam'){
+        state.steam = true;
+        setConnected(btn, '✓ Connected');
+        document.getElementById('streamer-continue').disabled = false;
+      }
+    });
+  });
+
+  // --- Steam Trade URL validation ---
+  function isValidSteamTradeUrl(url){
+    try {
+      var p = new URL(url);
+      if(p.hostname !== 'steamcommunity.com') return false;
+      if(!p.pathname.startsWith('/tradeoffer/new/')) return false;
+      var partner = p.searchParams.get('partner');
+      var token = p.searchParams.get('token');
+      if(!partner || !token) return false;
+      if(!/^\d+$/.test(partner)) return false;
+      if(!/^[a-zA-Z0-9_-]+$/.test(token)) return false;
+      return true;
+    } catch(e){ return false; }
+  }
+
+  var urlInput = document.getElementById('viewer-trade-url');
+  var urlErr   = document.getElementById('viewer-trade-error');
+  urlInput.addEventListener('input', function(){
+    urlInput.classList.remove('auth-input-error');
+    urlErr.classList.add('hidden');
+  });
+  document.getElementById('viewer-steam-submit').addEventListener('click', function(){
+    var v = urlInput.value.trim();
+    if(!isValidSteamTradeUrl(v)){
+      urlInput.classList.add('auth-input-error');
+      urlErr.classList.remove('hidden');
+      return;
+    }
+    state.tradeUrl = v;
+    urlInput.disabled = true;
+    this.disabled = true;
+    this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3.5"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg><span class="mt-px">Added</span>';
+    document.getElementById('viewer-continue').disabled = false;
+  });
+
+  // --- Final continue → write auth + go to app ---
+  function finish(){
+    try {
+      var existing = JSON.parse(localStorage.getItem('dropzona_user') || 'null');
+      var isStreamer = state.role === 'streamer';
+      var seed = isStreamer ? 'Streamer' : 'Viewer';
+      var username = (existing && existing.username) || (seed + Math.floor(Math.random()*9000 + 1000));
+      localStorage.setItem('dropzona_user', JSON.stringify({
+        username: username,
+        email: (existing && existing.email) || (state.role + '@twitch.tv'),
+        isStreamer: isStreamer,
+        avatarInitials: username.slice(0,2).toUpperCase(),
+        tradeUrl: state.tradeUrl || (existing && existing.tradeUrl) || null,
+        connectedTwitch: true,
+        connectedSteam: state.steam || (state.role === 'viewer'),
+        createdAt: (existing && existing.createdAt) || new Date().toISOString(),
+      }));
+      localStorage.setItem('dropzona_auth', '1');
+      localStorage.setItem('dropzona_role', isStreamer ? 's' : 'v');
+    } catch(e){}
+    location.href = isStreamer ? '/app/s/dashboard' : '/app/browse';
+  }
+  document.getElementById('viewer-continue').addEventListener('click', finish);
+  document.getElementById('streamer-continue').addEventListener('click', finish);
+
+  // --- Deep-link via ?role=streamer or ?step= ---
+  (function(){
+    var qs = new URL(location.href).searchParams;
+    var step = qs.get('step');
+    var role = qs.get('role') || (qs.get('streamer') === '1' ? 'streamer' : null);
+    if(step === 'viewer' || step === 'streamer'){
+      state.role = step;
+      showStep('step-' + step);
+    } else if(role === 'streamer' || role === 'viewer'){
+      state.role = role;
+      showStep('step-' + role);
+    }
+  })();
+})();
+</script>
+<script type="module">
+import {mountSignupSkeleton, unmountSignupSkeleton} from '/skeleton/SignupSkeleton.js';
+import {autoUnmount} from '/skeleton/loader.js';
+mountSignupSkeleton();
+autoUnmount(unmountSignupSkeleton);
+</script>
+</body>
+</html>

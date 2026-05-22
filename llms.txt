@@ -1,0 +1,66 @@
+# Dropzona
+
+> Dropzona is an automated CS2 skin giveaway platform for Twitch streamers. It reads Counter-Strike 2 Game State Integration in real time, picks a winner from eligible Twitch chat the moment a configured in-game event fires (ace, knife kill, triple kill, bomb plant, last man standing, etc.), and sends the Steam trade offer to the winner automatically — no manual draws, no spreadsheets, no humans in the loop.
+
+## Who it's for
+- CS2 streamers on Twitch who want to reward active chatters with real Steam skins.
+
+## Problem it solves
+- Manual giveaways break stream flow, take time off the broadcast, and reward bots more than fans. Dropzona automates the full loop from in-game trigger to Steam trade delivery so the streamer can keep playing.
+
+## What's live now (as of 2026-05)
+- Real-time CS2 Game State Integration (GSI) — events fire as they happen.
+- Map any in-game event to a drop and set a per-trigger prize amount.
+- Automatic winner selection from eligible Twitch chat.
+- Hands-free Steam trade-offer delivery from the streamer's own connected Steam inventory, using Steam's official trade flow.
+- Built on Twitch OAuth and Steam OpenID — Dropzona never sees a Steam password.
+
+## Coming soon (planned, not yet live)
+- Test Mode — dry-run the full trigger pipeline before going live.
+- Multi-language Twitch chat announcements (English ships first).
+- Expanded drop history and analytics.
+- Watch-time points program — rewards viewers who didn't win a drop with points usable for future lottery entries and community rewards.
+- Subscriber and loyalty rules — restrict premium drops to subs, VIPs, or long-time followers.
+
+## How it works (three steps)
+1. Connect — Link Twitch and Steam in the Dropzona dashboard. A setup wizard generates a CS2 GSI config file you drop into your CS2 cfg folder.
+2. Configure — Pick which in-game events trigger a drop, and set the prize amount per trigger. Values can be changed mid-stream.
+3. Stream — Go live on Twitch. When a configured trigger fires, Dropzona picks an eligible viewer from chat, announces them, and sends the Steam trade offer automatically.
+
+## How viewers participate
+- Free to enter. Viewers link a Steam Trade URL to their Dropzona profile once and stay active in Twitch chat. There are no tokens, credits, or entry fees. Prizes come from the streamer's own Steam inventory.
+
+## Trade delivery
+- All trades go through Steam's official trade-offer flow. If a trade fails (missing or private trade URL, full inventory, trade restrictions, declined by Steam), the failure is surfaced in the streamer's dashboard so the skin can be re-sent, re-rolled, or returned to inventory.
+
+## Affiliations and trademarks
+- Dropzona is an independent product. It is not affiliated with, endorsed by, or sponsored by Valve Corporation, Steam, Counter-Strike 2, Twitch, or Amazon. It uses the official Twitch and Steam developer integrations. All trademarks belong to their respective owners.
+
+## Pricing
+- Free during BETA. No credit card required to sign up. Pricing for the public-launch version is not yet published.
+
+## Status
+- Open BETA as of May 2026. Early access for streamers via signup at https://dropzona.tv/signup.html.
+
+## Key URLs
+- Home / product: https://dropzona.tv/
+- How it works (anchor): https://dropzona.tv/#how
+- FAQ (anchor): https://dropzona.tv/#faq
+- Points / retention program (anchor): https://dropzona.tv/#points
+- Sign up: https://dropzona.tv/signup.html
+- Sign in: https://dropzona.tv/login.html
+- Support: https://dropzona.tv/support.html
+- Privacy policy: https://dropzona.tv/privacy.html
+- Terms of use: https://dropzona.tv/terms.html
+- Sitemap: https://dropzona.tv/sitemap.xml
+
+## Community
+- Discord: https://discord.gg/dropzona
+- X / Twitter: https://x.com/dropzona
+- Instagram: https://instagram.com/dropzona
+
+## Not in scope (and we don't claim it)
+- Dropzona is NOT a gambling, betting, lottery, or casino service. Viewers never pay to enter.
+- Dropzona does NOT host, escrow, sell, or own skins — skins live in the streamer's own Steam inventory until a trade offer is sent.
+- Dropzona does NOT guarantee viewer growth, trade success rates, or revenue. Trade execution depends on Steam, Twitch, and CS2 — services Dropzona does not control.
+- Dropzona is NOT currently a Dota 2, Valorant, or Apex tool. CS2 is the only supported game.
